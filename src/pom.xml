@@ -1,0 +1,14 @@
+<dependencies>
+    <!-- Spring Boot Web Starter -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- SymJava for symbolic math -->
+    <dependency>
+        <groupId>org.symja</groupId>
+        <artifactId>symja-parser</artifactId>
+        <version>2.0.0</version>
+    </dependency>
+</dependencies>

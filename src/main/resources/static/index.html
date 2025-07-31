@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Math Solver</title>
+</head>
+<body>
+    <h1>College Math Solver</h1>
+    <input type="text" id="expression" placeholder="e.g., x^2 + sin(x)">
+    <button onclick="solve()">Solve Integral</button>
+    <h2>Result:</h2>
+    <p id="result"></p>
+
+    <script>
+        async function solve() {
+            const expression = document.getElementById('expression').value;
+            const response = await fetch('/api/math/integrate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: expression
+            });
+            const result = await response.text();
+            document.getElementById('result').innerText = result;
+        }
+    </script>
+</body>
+</html>
