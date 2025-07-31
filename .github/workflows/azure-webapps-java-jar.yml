@@ -1,26 +1,15 @@
-# This workflow builds and deploys a Java application to an Azure Web App.
-#
-# 1. Set up your Azure credentials as a secret in your GitHub repository.
-#    - Go to your repository's Settings > Secrets and variables > Actions.
-#    - Create a new repository secret named `AZURE_CREDENTIALS`.
-#    - The value of the secret should be the JSON output of the following Azure CLI command:
-#      az ad sp create-for-rbac --name "myApp" --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} --sdk-auth
-#
-# 2. Update the `AZURE_WEBAPP_NAME` environment variable in the `env` section below
-#    with your actual Azure Web App name.
-
 name: Build and Deploy Java App to Azure
 
 on:
   push:
     branches:
-      - main  # or your default branch
+      - main
 
 env:
-  AZURE_WEBAPP_NAME: MathSolver   # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '${{ github.workspace }}/target' # set this to the path to your packaged app
-  JAVA_VERSION: '21'              # set this to the Java version to use
-  JAVA_DISTRIBUTION: 'zulu'       # set this to the Java distribution to use
+  AZURE_WEBAPP_NAME: MathSolver
+  AZURE_WEBAPP_PACKAGE_PATH: '${{ github.workspace }}/MathSolver/target'
+  JAVA_VERSION: '21'
+  JAVA_DISTRIBUTION: 'zulu'
 
 jobs:
   build-and-deploy:
@@ -39,10 +28,11 @@ jobs:
 
       - name: 'Build with Maven'
         run: mvn clean install -DskipTests
+        working-directory: ./MathSolver
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} # Alternatively, use service principal as shown in the comments above
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/*.jar
